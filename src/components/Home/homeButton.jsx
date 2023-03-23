@@ -1,4 +1,5 @@
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useState,useContext, useMemo} from 'react';
+import { userServiceContext } from '../../static/userServiceContext';
 import { Link } from 'react-router-dom';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -7,28 +8,15 @@ import FormControl from '@mui/material/FormControl';
 import '../Home/homeButton.css';
 
 
-
 function HomeButton(){
-  const [navigate,setNavigate] = useState(false)
+  const { serviceSelected,setServiceSelected } = useContext(userServiceContext)
+
+  // const serviceValue = useMemo(()=>({serviceSelected,setServiceSelected}),[serviceSelected,setServiceSelected])
+  const [service,setService]= useState(false)
+  const [settService,setSelectedservice]=useState(null)
   const [showDiv, setShowDiv] = useState(false);
   const [user,setUser]=useState(null)
-  const transition = { 
-    width:'100%',
-    height:'4rem',
-    display:'flex',
-    justifyContent:'center',
-    padding:'10px',
-    animation:"inAnimation 250ms ease-in",
-    animationFillMode: "forwards",}
-    const transitionOut ={
-      width:'100%',
-    height:'4rem',
-    display:'flex',
-    justifyContent:'center',
-    padding:'10px',
-    animation:"inAnimation 250ms ease-",
-    animationFillMode: "forwards",
-    }
+  
   useEffect(()=>{
     const dataStr = localStorage.getItem('authInfo')
     // console.log(dataStr);
@@ -37,12 +25,32 @@ function HomeButton(){
       // console.log(user);
     }
   },[])
-    const navigation= ()=>{
-        // setNavigate(true); 
+    const navigation= ()=>{ 
         setShowDiv(!showDiv)
     }
-
-
+const selectService =()=>{
+  setService(!service)
+  if (service === false) {
+    setSelectedservice('passenger')
+    setServiceSelected("Passenger")
+    // localStorage.setItem('service',{service:serviceSelected})
+    console.log(serviceSelected);
+  }else{
+    setSelectedservice('transporter')
+    setServiceSelected("Transporter")
+    // localStorage.setItem('service',{service:serviceSelected})
+    console.log(serviceSelected);
+  }
+}
+const setServiceButton =()=>{
+    // if (serviceSelected) {
+    //   return(
+    //     <Navigate to={{
+    //       pathname:'/action'
+    //     }}/> 
+    //   )
+    // }
+}
     
     return (    
        <div className='d-flex justify-content-center centerspace' >
@@ -56,7 +64,7 @@ function HomeButton(){
           </div>
           {
             showDiv && 
-            <div className="radio" style={showDiv? transition:transitionOut}>
+            <div className="radio" style={{justifyContent:'center',display:'flex',padding:'2px'}}>
             <FormControl>
             <RadioGroup
               row
@@ -64,9 +72,10 @@ function HomeButton(){
               defaultValue="passenger"
               name="radio-buttons-group"
             >
-              <FormControlLabel value="passenger" control={<Radio />} label="I'm a Passenger" />
-              <FormControlLabel value="transporter" control={<Radio />} label="I'm a Transporter" />
-              <button type="button" class="btn btn-dark">OK</button>
+              {/* <input type="radio" name="choose" id="" value='Passenger' /> */}
+              <FormControlLabel  control={<Radio   value="Passenger" checked={ settService === 'passenger' } onChange={selectService}/>} label="I'm a Passenger" />
+              <FormControlLabel  control={<Radio  value="Transporter" checked={ settService === 'transporter'} onChange={selectService}/>} label="I'm a Transporter" />
+              <button type="button" class="btn btn-dark" onClick={setServiceButton}>OK</button>
             </RadioGroup>
            </FormControl>
             </div>

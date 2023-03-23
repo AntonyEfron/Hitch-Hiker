@@ -10,6 +10,8 @@ import { userContext } from "./static/userContext";
 
 
 function App() {
+  // const [userService,setuserService] = useState(null)
+  // const service = useMemo(()=>({userService,setuserService}),[userService,setuserService])
   const [user,setUser]=useState(null)
   const value = useMemo(()=>({user,setUser}),[user,setUser])
   useEffect(()=>{
@@ -22,9 +24,9 @@ function App() {
     return(
       <div className="app" >
         <userContext.Provider value={value}>
-          <Navbar/>
+           <Navbar/>
            <Outlet/>
-          <Footer/>
+          <Footer/> 
         </userContext.Provider>
       </div>
     )
