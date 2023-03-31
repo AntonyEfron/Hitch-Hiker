@@ -42,6 +42,7 @@ function LoginForm() {
       }}
       />
     )
+    // console.log(user);
   }
 
     return ( 

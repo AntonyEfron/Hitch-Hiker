@@ -1,19 +1,19 @@
-import React,{useEffect,useState,useContext, useMemo} from 'react';
-import { userServiceContext } from '../../static/userServiceContext';
+import {useEffect,useState,useContext} from 'react';
 import { Link } from 'react-router-dom';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import '../Home/homeButton.css';
+import { userServiceContext } from '../../static/userServiceContext';
+
 
 
 function HomeButton(){
-  const { serviceSelected,setServiceSelected } = useContext(userServiceContext)
 
-  // const serviceValue = useMemo(()=>({serviceSelected,setServiceSelected}),[serviceSelected,setServiceSelected])
-  const [service,setService]= useState(false)
-  const [settService,setSelectedservice]=useState(null)
+  // const {servicee, seletedService} = useContext(userServiceContext)
+  const [service,setService]= useState(null)
+  const [settService,setSelectedservice]=useState('')
   const [showDiv, setShowDiv] = useState(false);
   const [user,setUser]=useState(null)
   
@@ -22,34 +22,31 @@ function HomeButton(){
     // console.log(dataStr);
     if (dataStr) {
       setUser(JSON.parse(dataStr))
-      // console.log(user);
+      setService(JSON.parse(dataStr))
+      console.log(dataStr);
     }
   },[])
     const navigation= ()=>{ 
         setShowDiv(!showDiv)
     }
 const selectService =()=>{
-  setService(!service)
-  if (service === false) {
-    setSelectedservice('passenger')
-    setServiceSelected("Passenger")
-    // localStorage.setItem('service',{service:serviceSelected})
-    console.log(serviceSelected);
-  }else{
-    setSelectedservice('transporter')
-    setServiceSelected("Transporter")
-    // localStorage.setItem('service',{service:serviceSelected})
-    console.log(serviceSelected);
-  }
+
+  setSelectedservice('Passenger')
+  console.log(service);
 }
-const setServiceButton =()=>{
-    // if (serviceSelected) {
-    //   return(
-    //     <Navigate to={{
-    //       pathname:'/action'
-    //     }}/> 
-    //   )
-    // }
+const selectServicee =()=>{
+  setSelectedservice('Transporter') 
+
+}
+const localstrUpdate=()=>{
+    // seletedService(settService)
+    // console.log(servicee);
+    // localStorage.setItem('servInfo',{service : settService})
+
+    const updateStrg = service 
+    updateStrg.addService = settService
+    // console.log(updateStrg);
+    localStorage.setItem('authInfo',JSON.stringify(updateStrg))
 }
     
     return (    
@@ -73,9 +70,12 @@ const setServiceButton =()=>{
               name="radio-buttons-group"
             >
               {/* <input type="radio" name="choose" id="" value='Passenger' /> */}
-              <FormControlLabel  control={<Radio   value="Passenger" checked={ settService === 'passenger' } onChange={selectService}/>} label="I'm a Passenger" />
-              <FormControlLabel  control={<Radio  value="Transporter" checked={ settService === 'transporter'} onChange={selectService}/>} label="I'm a Transporter" />
-              <button type="button" class="btn btn-dark" onClick={setServiceButton}>OK</button>
+              <FormControlLabel  control={<Radio   value="Passenger" checked={ settService === 'Passenger' } onChange={selectService}/>} label="I'm a Passenger" />
+              <FormControlLabel  control={<Radio  value="Transporter" checked={ settService === 'Transporter'} onChange={selectServicee}/>} label="I'm a Transporter" />
+              {
+                settService && <Link to={{pathname:'/action'}}><button type="button" class="btn btn-dark" onClick={localstrUpdate}>OK</button></Link>
+              }
+              
             </RadioGroup>
            </FormControl>
             </div>

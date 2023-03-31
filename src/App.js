@@ -7,11 +7,13 @@ import Login from "./pages/login";
 import RegisterPage from "./pages/Register";
 import Footer from "./components/Footer/Footer";
 import { userContext } from "./static/userContext";
+import { userServiceContext } from "./static/userServiceContext";
 
 
 function App() {
-  // const [userService,setuserService] = useState(null)
-  // const service = useMemo(()=>({userService,setuserService}),[userService,setuserService])
+
+  const [servicee, seletedService] = useState(null)
+  const serviceValue = useMemo(()=>({servicee,seletedService}),[servicee,seletedService])
   const [user,setUser]=useState(null)
   const value = useMemo(()=>({user,setUser}),[user,setUser])
   useEffect(()=>{
@@ -20,13 +22,19 @@ function App() {
       setUser(JSON.parse(dataStr))
     }
   },[]) 
+if (serviceValue) {
+  console.log(serviceValue);
+      // console.log(value);
+}
   const Layout =() =>{
     return(
       <div className="app" >
         <userContext.Provider value={value}>
-           <Navbar/>
-           <Outlet/>
-          <Footer/> 
+          
+               <Navbar/>
+               <Outlet/>
+               <Footer/>
+
         </userContext.Provider>
       </div>
     )
@@ -35,10 +43,13 @@ function App() {
 const router = createBrowserRouter([
   {
     path:"/",
-    element: <Layout/>,
+    element: 
+    <userServiceContext.Provider serviceValue={serviceValue}>
+      <Layout/>
+      </userServiceContext.Provider>,
     children:[
       {
-        path:"/",
+        path:"/", 
         element:<HomePage/>
       },
       {
