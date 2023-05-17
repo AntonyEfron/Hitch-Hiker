@@ -12,6 +12,10 @@ const userModel = new mongoose.Schema({
     password:{
         type:String,
         require:true
+    },
+    admin:{
+        type:String,
+        require:true
     }
 },{timestamps: true})
 
