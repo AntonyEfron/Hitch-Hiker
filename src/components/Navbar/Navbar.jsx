@@ -1,4 +1,5 @@
 import React , {useState,useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import img from '../../img/iconcar.png';
 import '../Navbar/Navbar.css'
 
@@ -40,7 +41,8 @@ function Navbar(){
            </div>
          </div>
          <div className={navbar?'center':'centerScroll'}>
-           <h1 className={navbar?'leaves':'leaveScroll'}><b>Hitch-Hiker</b></h1>
+            <Link to={{pathname:'/'}} style={{textDecoration:'none'}}> <h1 className={navbar?'leaves':'leaveScroll'}><b>Hitch-Hiker</b></h1></Link>
+          
          </div> 
          <div className="rightNav">
             <div className='logout'>

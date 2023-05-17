@@ -24,10 +24,18 @@ function LoginForm() {
         nofindUser(true)
         setTimeout(noLogin,2000);
       }else{
-        // console.log(response.data);
+          if (response.data.admin) {
+             console.log(response.data);
+             setUser(response.data)
+             let userData = JSON.stringify(response.data);
+             localStorage.setItem('authInfo',userData)
+          }else{
+            console.log(response.data);
         let userData = JSON.stringify(response.data);
         setUser(userData)
         localStorage.setItem('authInfo',userData)
+          }
+        
       }
     }catch(error){
       console.log(error)
@@ -35,13 +43,23 @@ function LoginForm() {
   } 
 
   if (user) {
-    return(
+    if (user.admin) {
+      return(
+        <Navigate
+        to={{
+          pathname:'/admin'
+        }}
+        />
+      )
+    }else{
+      return(
       <Navigate
       to={{
         pathname:'/'
       }}
       />
     )
+    }
     // console.log(user);
   }
 

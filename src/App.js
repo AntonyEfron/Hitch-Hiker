@@ -4,7 +4,9 @@ import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./pages/Home";
 import ActionPage from "./pages/ActionPage/Actionpage";
 import Login from "./pages/login";
-import RegisterPage from "./pages/Register";
+// import RegisterPage from "./pages/Register";
+import MapContainer from "./pages/Map/map";
+import  AdminIndex from "./pages/Admin/adminIndex";
 import Footer from "./components/Footer/Footer";
 import { userContext } from "./static/userContext";
 import { userServiceContext } from "./static/userServiceContext";
@@ -23,7 +25,7 @@ function App() {
     }
   },[]) 
 if (serviceValue) {
-  console.log(serviceValue);
+  // console.log(serviceValue);
       // console.log(value);
 }
   const Layout =() =>{
@@ -61,9 +63,15 @@ const router = createBrowserRouter([
         element:<Login/>
       },
       {
-        path:"/register",
-        element:<RegisterPage/>
+        path:"/admin",
+        element:<AdminIndex/>
+      },
+      {
+        path:'/map',
+        element:<MapContainer/>
       }
+    
+      
     ]
   }
 ])

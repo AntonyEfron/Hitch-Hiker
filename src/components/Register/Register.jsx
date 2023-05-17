@@ -16,8 +16,9 @@ function Register() {
     async function url(event){
         try{
           event.preventDefault()
-          if (userCredential.password == userCredential.password1) {
-             await Axios.post('/register',userCredential);
+          if (userCredential.password === userCredential.password1) {
+            const v = await Axios.post('/register',userCredential);
+            console.log(v);
             setRedirect(true)
           }else{
             setEror(true);

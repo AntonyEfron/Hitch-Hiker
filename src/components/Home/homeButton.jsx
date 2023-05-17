@@ -1,5 +1,5 @@
 import {useEffect,useState,useContext} from 'react';
-import { Link } from 'react-router-dom';
+import { Link,Navigate } from 'react-router-dom';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -16,16 +16,32 @@ function HomeButton(){
   const [settService,setSelectedservice]=useState('')
   const [showDiv, setShowDiv] = useState(false);
   const [user,setUser]=useState(null)
+  const [adminRredirect,setIt] =useState(false)
   
   useEffect(()=>{
     const dataStr = localStorage.getItem('authInfo')
     // console.log(dataStr);
     if (dataStr) {
-      setUser(JSON.parse(dataStr))
-      setService(JSON.parse(dataStr))
-      console.log(dataStr);
+      let data = JSON.parse(dataStr)
+      if (data.admin) {
+       setIt(true)  
+      }else{
+        setUser(data)
+        setService(data)
+        console.log(dataStr);
+      }  
     }
+    
   },[])
+
+
+if (adminRredirect) {
+  return(
+    <Navigate to={{pathname:'/admin'}}
+    />
+  )
+}
+
     const navigation= ()=>{ 
         setShowDiv(!showDiv)
     }
