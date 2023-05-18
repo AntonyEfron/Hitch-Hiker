@@ -86,8 +86,9 @@ router.post('/transporterForm',async (req,res)=>{
 
 // grabingRequsts......
 
-router.get('/grabTrequsets', async(req,res)=>{
-   let requsts = await transpoeterRequest.find()
+router.get('/grabTrequsets/:id', async(req,res)=>{
+   let requsts = await transpoeterRequest.find({ id: { $ne: req.params.id } })
+  //  console.log(requsts);
    if (requsts) {
     res.json(requsts)
    }else{
@@ -95,8 +96,8 @@ router.get('/grabTrequsets', async(req,res)=>{
   }
 })
 
-router.get('/grabPrequests', async(req,res)=>{
-  let requsts = await passengerRequest.find()
+router.get('/grabPrequests/:id', async(req,res)=>{
+  let requsts = await passengerRequest.find({ id: { $ne: req.params.id } })
   if (requsts) {
    console.log(requsts);
    res.json(requsts)
@@ -106,11 +107,11 @@ router.get('/grabPrequests', async(req,res)=>{
 })
 
 router.get('/getPassengerCreatedRequest/:id',async(req,res)=>{
-   console.log(req.params.id)
+  //  console.log(req.params.id)
    try {
    let id3 = req.params.id
       let Requests = await passengerRequest.find({id:id3})
-      console.log(Requests);
+      // console.log(Requests);
       res.json(Requests)
    } catch (error) {
     console.log(error);
@@ -120,7 +121,7 @@ router.get('/getTransporterCreatedRequest/:id',async(req,res)=>{
   try {
     let id3 = req.params.id
        let Requests = await transpoeterRequest.find({id:id3})
-       console.log(Requests);
+      //  console.log(Requests);
        res.json(Requests)
     } catch (error) {
      console.log(error);
@@ -128,12 +129,12 @@ router.get('/getTransporterCreatedRequest/:id',async(req,res)=>{
 })
 
 router.post('/passengeRequestAceepted', async (req,res)=>{
-  console.log(req.body);
+  // console.log(req.body);
   let id = req.body.obJId
   console.log(id);
     try {
     let update = await transpoeterRequest.findByIdAndUpdate(id, { acceptBy: req.body.acctBy, pickUpForP:req.body.pickup, destiForP:req.body.desti },{new:true});
-    console.log(update);
+    // console.log(update);
     res.json(update)
     } catch (error) {
       console.log(error);
@@ -144,7 +145,7 @@ router.post('/transporterRequestAccepted',async (req,res)=>{
   console.log(req.body);
   try {
     let update = await passengerRequest.findByIdAndUpdate(req.body.objId,{acceptBy:req.body.acceptBy,  satingPointT:req.body.startingPoint,  endPointT:req.body.endPoint},{new:true})
-    console.log(update);
+    // console.log(update);
     res.json(update)
   } catch (error) {
     console.log(error);
