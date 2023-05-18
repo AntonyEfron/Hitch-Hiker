@@ -18,7 +18,9 @@ function PassengerForm({id}) {
  }
     return ( 
         <div className="formPassenger" id='form'>
-           <h1 className="h3  fw-normal d-flex justify-content-center p-3" style={{fontFamily: "'IM Fell English', serif",fontFamily: "'Inika', serif", fontFamily: "'Rubik', sans-serif"}}><b>Set Details for pickup</b></h1>
+           <h2 className='d-flex justify-content-center' style={{fontFamily: "'IM Fell English', serif",fontFamily: "'Inika', serif", fontFamily: "'Rubik', sans-serif"}}><b>Set Details for pickup</b></h2>
+
+           
         <form onSubmit={Psubmit} >
           {/* <input type="" className="idd" name='id' id='fInput' placeholder='id' value={id} onChange={e => setpickupDetail({id1: e.target.value})} required /> */}
             <div className="namecontact" style={{display:'flex'}}>

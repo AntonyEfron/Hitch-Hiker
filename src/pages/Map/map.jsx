@@ -64,7 +64,7 @@ function MapContainer(props) {
       google={props.google}
       zoom={14}
       style={mapStyles}
-      initialCenter={{ lat: latitude, lng: longitude }}
+      initialCenter={{ lat: 9.9745792, lng: 76.3133952 }}
     />
   );
 }

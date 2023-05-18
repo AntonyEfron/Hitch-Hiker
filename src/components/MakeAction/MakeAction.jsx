@@ -27,6 +27,9 @@ function MakeAction() {
     const [noRequest ,setNoRequest] =useState(false)
     const [noRequestT ,setNoRequestT] =useState(false)
   
+    const [noREquest ,setNoREquestP] =useState(false)
+    const [noREquestT ,setNoREquestT] =useState(false)
+
     const [TransporterReqetArray, setTReqArray]=useState([])
     const [PassengerReqetArray, setPReqArray]=useState([])
 
@@ -48,7 +51,7 @@ function MakeAction() {
               let userId = serv._id
               let data = await Axios.get(`/getPassengerCreatedRequest/${userId}`)
               const request = data.data
-              console.log(request.length);
+            //   console.log(request.length);
               if (request.length === 0) {
                 setNoRequest(true)
              }else{
@@ -85,12 +88,15 @@ const requestForm =()=>{
     if (userData.addService === 'Passenger') {
         setGrabreq(false)
         setuseeffectReqfetchP(false)
+        setNoREquestP(false)
         setRequestPForm(!requestPform)
     }
     //TRANSPORTER FORM FETCHING
     if (userData.addService === 'Transporter') {
         setGrabreqT(false) 
         setuseeffectReqfetchT(false)
+        setNoREquestT(false)
+
         setRequestTform(!requestTform) 
     }
 }
@@ -99,10 +105,20 @@ const grabRequest = async()=>{
     if (userData.addService === 'Passenger') {
         setRequestPForm(false)
         setuseeffectReqfetchP(false)
+
+        const user =  localStorage.getItem('authInfo')
+        const serv = JSON.parse(user)
+        const id = serv._id
+
         try {
-        const RequsT = await Axios.get('/grabTrequsets')
+        const RequsT = await Axios.get(`/grabTrequsets/${id}`) 
+        const request = Object.keys(RequsT.data).length
+        if (request === 0) {
+            setNoREquestP(true)
+        }else{
         setTReqArray(RequsT.data)  
         setGrabreq(true)
+        }
         } catch (error) {
             console.log(error);
         }  
@@ -111,10 +127,22 @@ const grabRequest = async()=>{
     if (userData.addService === 'Transporter') {
         setRequestTform(false)
         setuseeffectReqfetchT(false)
+
+        const user =  localStorage.getItem('authInfo')
+        const serv = JSON.parse(user)
+        const id = serv._id
+
         try {
-           const RequstP = await Axios.get('/grabPrequests') 
-           setPReqArray(RequstP.data)
-           setGrabreqT(true)   
+           const RequstP = await Axios.get(`/grabPrequests/${id}`) 
+          const request = Object.keys(RequstP.data).length
+          if (request === 0) {
+          console.log(RequstP);
+          setNoREquestT(true)
+          }else{
+            setGrabreqT(true) 
+            setPReqArray(RequstP.data)  
+            // console.log(noRequestT);
+          }
         } catch (error) {
             console.log(error);
         }
@@ -124,11 +152,13 @@ const grabRequest = async()=>{
  const Myreq = ()=>{
     if (userData.addService==='Passenger') {
         setGrabreq(false)
+        setNoREquestP(false)
         setRequestPForm(false) 
         setuseeffectReqfetchP(!useeffectReqfetchP)
     }
     if (userData.addService === 'Transporter') {
         setGrabreqT(false)
+        setNoREquestT(false)
         setRequestTform(false)
         setuseeffectReqfetchT(!useeffectReqfechT)
     }
@@ -215,9 +245,18 @@ const grabRequest = async()=>{
                 </div>
             }
             {
+                noREquest  && 
+               <div className="requs d-block " id='requests'>
+                <h1 className='d-flex justify-content-center' style={{fontFamily: "'IM Fell English', serif",fontFamily: "'Inika', serif", fontFamily: "'Rubik', sans-serif"}}><b>Travellers</b></h1>
+                <h3 className='d-flex justify-content-center' style={{fontFamily: "'IM Fell English', serif",fontFamily: "'Inika', serif", fontFamily: "'Rubik', sans-serif",marginTop:'2rem'}}><b>Travellers currently Unavailable</b></h3>
+               </div>
+
+            }
+            {
                 grabRequestP && 
                <div className="requs d-block " id='requests'>
                  <h1 className='d-flex justify-content-center' style={{fontFamily: "'IM Fell English', serif",fontFamily: "'Inika', serif", fontFamily: "'Rubik', sans-serif"}}><b>Travellers</b></h1>
+                
                 {  TransporterReqetArray.map(obj =>{
                     return(
                     <TransporterRequests obj={obj} />
@@ -225,6 +264,14 @@ const grabRequest = async()=>{
                 })
                 }
                 </div>
+            }
+            {
+                noREquestT && 
+                <div className="requs d-block " id='requests'>
+                <h1 className='d-flex justify-content-center' style={{fontFamily: "'IM Fell English', serif",fontFamily: "'Inika', serif", fontFamily: "'Rubik', sans-serif"}}><b>Passengers</b></h1>
+                <h3 className='d-flex justify-content-center' style={{fontFamily: "'IM Fell English', serif",fontFamily: "'Inika', serif", fontFamily: "'Rubik', sans-serif",marginTop:'2rem'}}><b>Passengers currently Unavailable</b></h3>
+               </div>
+
             }
             {
                 grabRequestT && 
@@ -262,7 +309,7 @@ const grabRequest = async()=>{
                  <h1 className='d-flex justify-content-center' style={{fontFamily: "'IM Fell English', serif",fontFamily: "'Inika', serif", fontFamily: "'Rubik', sans-serif"}}><b>My Rides</b></h1>
                  {
                     noRequestT === true &&
-                    <h3 className='d-flex justify-content-center' style={{fontFamily: "'IM Fell English', serif",fontFamily: "'Inika', serif", fontFamily: "'Rubik', sans-serif",marginTop:'2rem'}}><b>No Requests Created</b></h3>
+                    <h3 className='d-flex justify-content-center' style={{fontFamily: "'IM Fell English', serif",fontFamily: "'Inika', serif", fontFamily: "'Rubik', sans-serif",marginTop:'2rem'}}><b>No Rides Created</b></h3>
                  } 
                 {  reqCreatedTranster.map(ob =>{
                     return(

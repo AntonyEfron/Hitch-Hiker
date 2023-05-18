@@ -22,7 +22,7 @@ function TransporterForm({id}) {
     }
     return ( 
         <div className="formPassenger" id='form'>
-           <h1 className="h3  fw-normal d-flex justify-content-center p-3"><b>Set Journey Details</b></h1>
+           <h2 className='d-flex justify-content-center' style={{fontFamily: "'IM Fell English', serif",fontFamily: "'Inika', serif", fontFamily: "'Rubik', sans-serif"}}><b>Set Journey Details</b></h2>
         <form onSubmit={Tsubmit}>
             <div className="namecontact" style={{display:'flex'}}>
                <div className="form-floating m-2">
